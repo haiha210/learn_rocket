@@ -1,0 +1,27 @@
+version: "3.7"
+
+volumes:
+  db_data:
+
+
+networks:
+  internal:
+    name: internal
+    driver: bridge
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    platform: linux/x86_64
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal
